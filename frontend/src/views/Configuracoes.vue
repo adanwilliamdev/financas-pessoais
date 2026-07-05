@@ -30,28 +30,6 @@
           </div>
         </div>
 
-        <!-- Segurança -->
-        <div class="card">
-          <h3>🔒 Segurança</h3>
-          <div class="settings-form">
-            <div class="form-group">
-              <label>Senha Atual</label>
-              <input type="password" v-model="seguranca.senhaAtual" placeholder="••••••••">
-            </div>
-            <div class="form-group">
-              <label>Nova Senha</label>
-              <input type="password" v-model="seguranca.novaSenha" placeholder="••••••••">
-            </div>
-            <div class="form-group">
-              <label>Confirmar Nova Senha</label>
-              <input type="password" v-model="seguranca.confirmarSenha" placeholder="••••••••">
-            </div>
-            <button class="btn btn-primary" @click="alterarSenha">
-              <i class="pi pi-key"></i> Alterar Senha
-            </button>
-          </div>
-        </div>
-
         <!-- Preferências -->
         <div class="card">
           <h3>🎨 Preferências</h3>
@@ -82,6 +60,28 @@
             </div>
             <button class="btn btn-primary" @click="salvarPreferencias">
               <i class="pi pi-save"></i> Salvar Preferências
+            </button>
+          </div>
+        </div>
+
+        <!-- Segurança -->
+        <div class="card">
+          <h3>🔒 Segurança</h3>
+          <div class="settings-form">
+            <div class="form-group">
+              <label>Senha Atual</label>
+              <input type="password" v-model="seguranca.senhaAtual" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label>Nova Senha</label>
+              <input type="password" v-model="seguranca.novaSenha" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label>Confirmar Nova Senha</label>
+              <input type="password" v-model="seguranca.confirmarSenha" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" @click="alterarSenha">
+              <i class="pi pi-key"></i> Alterar Senha
             </button>
           </div>
         </div>
@@ -251,22 +251,80 @@ const salvarNotificacoes = () => {
   })
 }
 
-const exportarDados = () => {
-  Swal.fire({
-    icon: 'info',
-    title: 'Exportação de Dados',
-    text: 'Funcionalidade em desenvolvimento',
-    confirmButtonText: 'OK'
-  })
+const exportarDados = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await fetch('/api/transacoes/exportar', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error('Erro ao exportar dados')
+    }
+    
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `transacoes_${new Date().toISOString().split('T')[0]}.csv`
+    a.click()
+    window.URL.revokeObjectURL(url)
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Dados exportados!',
+      text: 'Arquivo CSV baixado com sucesso.',
+      timer: 2000,
+      showConfirmButton: false
+    })
+  } catch (error) {
+    Swal.fire('Erro', 'Erro ao exportar dados', 'error')
+  }
 }
 
 const importarDados = () => {
-  Swal.fire({
-    icon: 'info',
-    title: 'Importação de Dados',
-    text: 'Funcionalidade em desenvolvimento',
-    confirmButtonText: 'OK'
-  })
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.accept = '.csv'
+  
+  input.onchange = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+    
+    const formData = new FormData()
+    formData.append('arquivo', file)
+    
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('/api/transacoes/importar', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      })
+      
+      const data = await response.json()
+      
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Importação concluída!',
+          text: data.message || 'Dados importados com sucesso!',
+          timer: 3000,
+          showConfirmButton: false
+        })
+      } else {
+        throw new Error(data.erro || 'Erro ao importar')
+      }
+    } catch (error) {
+      Swal.fire('Erro', error.message || 'Erro ao importar dados', 'error')
+    }
+  }
+  
+  input.click()
 }
 
 const excluirDados = () => {
@@ -464,7 +522,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-/* Toggle Switch */
 .toggle-group {
   display: flex;
   flex-direction: column;
