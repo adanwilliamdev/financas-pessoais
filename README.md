@@ -20,7 +20,7 @@ Controle receitas, despesas, metas financeiras e importe extratos bancários (CS
 
 ---
 
-# 📖 Sobre o projeto
+# 📖 Sobre o Projeto
 
 O **Finanças Pessoais** é uma aplicação Full Stack desenvolvida para auxiliar usuários no gerenciamento de suas finanças.
 
@@ -34,7 +34,7 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 - PostgreSQL
 - Docker
 - Boas práticas de desenvolvimento
-- Design moderno inspirado em produtos como **Linear**, **Vercel** e **Stripe**.
+- Design moderno inspirado em produtos como **Linear**, **Vercel** e **Stripe**
 
 ---
 
@@ -63,8 +63,8 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 
 ## 📥 Importação Bancária
 
-- Importação CSV
-- Importação OFX
+- Importação de arquivos CSV
+- Importação de arquivos OFX
 - Processamento automático
 - Validação dos dados
 
@@ -82,7 +82,7 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 
 ---
 
-## 🎯 Metas
+## 🎯 Metas Financeiras
 
 - Criar metas
 - Editar metas
@@ -103,35 +103,9 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 ## ⚙️ Configurações
 
 - Alteração de senha
-- Perfil
+- Perfil do usuário
 - Preferências
 - Exportação de dados
-
----
-
-# 🖼️ Screenshots
-
-## 🏠 Dashboard
-
-<p align="center">
-  <img src="./frontend/public/dashboard.png" alt="Dashboard" width="900">
-</p>
-
----
-
-## 💸 Transações
-
-<p align="center">
-  <img src="./frontend/public/transações.png" alt="Transações" width="900">
-</p>
-
----
-
-## 🎯 Metas
-
-<p align="center">
-  <img src="./frontend/public/metas.png" alt="Metas" width="900">
-</p>
 
 ---
 
@@ -165,9 +139,7 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 | JWT | Tokens |
 | Spring Data JPA | Persistência |
 | PostgreSQL | Banco de dados |
-| Maven | Dependências |
-
----
+| Maven | Gerenciamento de dependências |
 
 ## Frontend
 
@@ -175,14 +147,12 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 |------------|-----------|
 | Vue 3 | Framework |
 | Vite | Build Tool |
-| Pinia | Estado |
+| Pinia | Gerenciamento de Estado |
 | Vue Router | Rotas |
-| Axios | HTTP |
+| Axios | Comunicação HTTP |
 | PrimeVue | Componentes |
 | Chart.js | Gráficos |
 | SweetAlert2 | Alertas |
-
----
 
 ## Infraestrutura
 
@@ -192,7 +162,7 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 
 ---
 
-# 🚀 Executando o projeto
+# 🚀 Executando o Projeto
 
 ## Pré-requisitos
 
@@ -213,7 +183,7 @@ cd financas-pessoais
 
 ---
 
-## 2️⃣ Banco de dados
+## 2️⃣ Banco de Dados
 
 ```bash
 docker-compose up -d
@@ -233,7 +203,7 @@ mvn spring-boot:run
 
 Servidor:
 
-```
+```text
 http://localhost:8080
 ```
 
@@ -251,22 +221,22 @@ npm run dev
 
 Servidor:
 
-```
+```text
 http://localhost:3001
 ```
 
 ---
 
-# 🔑 Usuários de teste
+# 🔑 Usuários de Teste
 
 | Usuário | Senha |
-|----------|--------|
+|---------|--------|
 | admin@financas.com | admin123 |
 | usuario@financas.com | usuario123 |
 
 ---
 
-# 📂 Estrutura
+# 📂 Estrutura do Projeto
 
 ```text
 financas-pessoais
@@ -303,8 +273,6 @@ financas-pessoais
 | POST | `/api/auth/login` |
 | POST | `/api/auth/register` |
 
----
-
 ## Transações
 
 | Método | Endpoint |
@@ -315,8 +283,6 @@ financas-pessoais
 | DELETE | `/api/transacoes/{id}` |
 | GET | `/api/transacoes/periodo` |
 | POST | `/api/transacoes/importar` |
-
----
 
 ## Metas
 
@@ -329,34 +295,15 @@ financas-pessoais
 
 ---
 
-# 📌 Roadmap
-
-- [x] Login JWT
-- [x] Dashboard
-- [x] CRUD de Transações
-- [x] Importação CSV
-- [x] Importação OFX
-- [x] Metas Financeiras
-- [x] Dashboard Responsivo
-- [ ] Dark Mode
-- [ ] Exportação PDF
-- [ ] Exportação Excel
-- [ ] PWA
-- [ ] Integração com APIs Bancárias
-- [ ] IA para análise financeira
-- [ ] Notificações Push
-
----
-
 # 🧪 Testes
 
-Backend
+## Backend
 
 ```bash
 mvn test
 ```
 
-Frontend
+## Frontend
 
 ```bash
 npm run build
@@ -368,47 +315,39 @@ npm run build
 
 Em breve o projeto estará disponível online.
 
-Frontend:
-
-> Vercel
-
-Backend:
-
-> Render
-
-Banco:
-
-> PostgreSQL
+- Frontend: **Vercel**
+- Backend: **Render**
+- Banco de Dados: **PostgreSQL**
 
 ---
 
 # 🤝 Contribuição
 
-Contribuições são sempre bem-vindas.
+Contribuições são sempre bem-vindas!
 
 ```bash
-Fork
+# Fork
 
-Create Branch
+# Create Branch
 
-Commit
+# Commit
 
-Push
+# Push
 
-Open Pull Request
+# Open Pull Request
 ```
 
 ---
 
 # 👨‍💻 Autor
 
-## Adan William Oliveira Santos
+**Adan William Oliveira Santos**
 
-🔗 GitHub
+### GitHub
 
 https://github.com/adanwilliamdev
 
-🔗 LinkedIn
+### LinkedIn
 
 https://www.linkedin.com/in/adanwilliamdev/
 
@@ -416,7 +355,7 @@ https://www.linkedin.com/in/adanwilliamdev/
 
 # ⭐ Gostou do projeto?
 
-Se este projeto foi útil para você, deixe uma **⭐** no repositório.
+Se este projeto foi útil para você, deixe uma ⭐ no repositório.
 
 Isso ajuda bastante na divulgação e incentiva o desenvolvimento de novas funcionalidades.
 
