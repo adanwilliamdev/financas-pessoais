@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6762472-1105-4be5-b412-0fe2e953cb7f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Configuracoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Configuracoes.vue" afterDir="false" />
-    </list>
+    <list default="true" id="f6762472-1105-4be5-b412-0fe2e953cb7f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
