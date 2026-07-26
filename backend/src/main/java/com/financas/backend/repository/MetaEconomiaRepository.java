@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface MetaEconomiaRepository extends JpaRepository<MetaEconomia, Long> {
     List<MetaEconomia> findByUsuarioAndAtivoTrueOrderByDataFimAsc(Usuario usuario);
-    List<MetaEconomia> findByUsuarioAndCategoria(Usuario usuario, String categoria);
-    List<MetaEconomia> findByUsuarioAndAtivoTrueAndDataFimAfter(Usuario usuario, java.time.LocalDate data);
 }

@@ -54,7 +54,6 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 
 - Cadastro de receitas
 - Cadastro de despesas
-- CRUD completo
 - Categorias personalizadas
 - Histórico de transações
 - Precisão monetária utilizando BigDecimal
@@ -85,7 +84,6 @@ Este projeto foi desenvolvido para demonstrar conhecimentos em:
 ## 🎯 Metas Financeiras
 
 - Criar metas
-- Editar metas
 - Acompanhar progresso
 - Percentual concluído
 
@@ -279,9 +277,8 @@ financas-pessoais
 |---------|----------|
 | GET | `/api/transacoes` |
 | POST | `/api/transacoes` |
-| PUT | `/api/transacoes/{id}` |
-| DELETE | `/api/transacoes/{id}` |
 | GET | `/api/transacoes/periodo` |
+| GET | `/api/transacoes/saldo` |
 | POST | `/api/transacoes/importar` |
 
 ## Metas
@@ -290,8 +287,9 @@ financas-pessoais
 |---------|----------|
 | GET | `/api/metas` |
 | POST | `/api/metas` |
-| PUT | `/api/metas/{id}` |
-| DELETE | `/api/metas/{id}` |
+| PUT | `/api/metas/{id}/progresso` |
+
+> Edição e exclusão de transações/metas ainda não estão implementadas na API — são bons próximos passos.
 
 ---
 

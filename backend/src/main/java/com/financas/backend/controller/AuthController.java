@@ -15,7 +15,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"}, allowCredentials = "true")
 public class AuthController {
     
     private final AuthService authService;
@@ -36,10 +35,5 @@ public class AuthController {
                 "erro", e.getMessage()
             ));
         }
-    }
-    
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Auth endpoint working!");
     }
 }

@@ -1,11 +1,11 @@
 <template>
   <div class="configuracoes">
     <Navbar />
-    
+
     <div class="container">
       <div class="page-header">
         <div>
-          <h1>⚙️ Configurações</h1>
+          <h1><i class="pi pi-cog"></i> Configurações</h1>
           <p class="text-muted">Gerencie suas preferências e configurações</p>
         </div>
       </div>
@@ -13,7 +13,7 @@
       <div class="settings-grid">
         <!-- Perfil -->
         <div class="card">
-          <h3>👤 Perfil</h3>
+          <h3 class="card-title"><i class="pi pi-user"></i> Perfil</h3>
           <div class="settings-form">
             <div class="form-group">
               <label>Nome</label>
@@ -32,7 +32,7 @@
 
         <!-- Preferências -->
         <div class="card">
-          <h3>🎨 Preferências</h3>
+          <h3 class="card-title"><i class="pi pi-sliders-h"></i> Preferências</h3>
           <div class="settings-form">
             <div class="form-group">
               <label>Moeda</label>
@@ -66,7 +66,7 @@
 
         <!-- Segurança -->
         <div class="card">
-          <h3>🔒 Segurança</h3>
+          <h3 class="card-title"><i class="pi pi-lock"></i> Segurança</h3>
           <div class="settings-form">
             <div class="form-group">
               <label>Senha Atual</label>
@@ -88,35 +88,35 @@
 
         <!-- Notificações -->
         <div class="card">
-          <h3>🔔 Notificações</h3>
+          <h3 class="card-title"><i class="pi pi-bell"></i> Notificações</h3>
           <div class="settings-form">
             <div class="toggle-group">
               <div class="toggle-item">
                 <span>Alertas de gastos</span>
-                <label class="toggle-switch">
+                <label class="switch">
                   <input type="checkbox" v-model="notificacoes.alertasGastos">
-                  <span class="toggle-slider"></span>
+                  <span class="switch-track"></span>
                 </label>
               </div>
               <div class="toggle-item">
                 <span>Lembretes de metas</span>
-                <label class="toggle-switch">
+                <label class="switch">
                   <input type="checkbox" v-model="notificacoes.lembretesMetas">
-                  <span class="toggle-slider"></span>
+                  <span class="switch-track"></span>
                 </label>
               </div>
               <div class="toggle-item">
                 <span>Relatórios semanais</span>
-                <label class="toggle-switch">
+                <label class="switch">
                   <input type="checkbox" v-model="notificacoes.relatoriosSemanais">
-                  <span class="toggle-slider"></span>
+                  <span class="switch-track"></span>
                 </label>
               </div>
               <div class="toggle-item">
                 <span>Promoções e novidades</span>
-                <label class="toggle-switch">
+                <label class="switch">
                   <input type="checkbox" v-model="notificacoes.promocoes">
-                  <span class="toggle-slider"></span>
+                  <span class="switch-track"></span>
                 </label>
               </div>
             </div>
@@ -128,7 +128,7 @@
 
         <!-- Dados -->
         <div class="card">
-          <h3>📁 Dados</h3>
+          <h3 class="card-title"><i class="pi pi-folder"></i> Dados</h3>
           <div class="settings-form">
             <div class="button-group">
               <button class="btn btn-secondary" @click="exportarDados">
@@ -139,7 +139,7 @@
               </button>
             </div>
             <div class="danger-zone">
-              <h4>⚠️ Zona de Perigo</h4>
+              <h4><i class="pi pi-exclamation-triangle"></i> Zona de Perigo</h4>
               <button class="btn btn-danger" @click="excluirDados">
                 <i class="pi pi-trash"></i> Excluir Todos os Dados
               </button>
@@ -149,15 +149,15 @@
 
         <!-- Sobre -->
         <div class="card">
-          <h3>ℹ️ Sobre</h3>
+          <h3 class="card-title"><i class="pi pi-info-circle"></i> Sobre</h3>
           <div class="settings-form">
             <p><strong>Finanças Pessoais v1.0.0</strong></p>
             <p>Sistema de controle financeiro pessoal</p>
-            <p class="text-muted">Desenvolvido com ❤️ para FinTech</p>
+            <p class="text-muted">Desenvolvido para FinTech</p>
             <div class="about-links">
-              <a href="#" class="link">📖 Documentação</a>
-              <a href="#" class="link">🐛 Reportar Bug</a>
-              <a href="#" class="link">💡 Sugerir Melhoria</a>
+              <a href="#" class="link"><i class="pi pi-book"></i> Documentação</a>
+              <a href="#" class="link"><i class="pi pi-exclamation-circle"></i> Reportar Bug</a>
+              <a href="#" class="link"><i class="pi pi-lightbulb"></i> Sugerir Melhoria</a>
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ const alterarSenha = () => {
     Swal.fire('Erro', 'A senha deve ter no mínimo 6 caracteres', 'error')
     return
   }
-  
+
   Swal.fire({
     icon: 'success',
     title: 'Senha alterada!',
@@ -225,7 +225,7 @@ const alterarSenha = () => {
     timer: 2000,
     showConfirmButton: false
   })
-  
+
   seguranca.value = {
     senhaAtual: '',
     novaSenha: '',
@@ -259,11 +259,11 @@ const exportarDados = async () => {
         'Authorization': `Bearer ${token}`
       }
     })
-    
+
     if (!response.ok) {
       throw new Error('Erro ao exportar dados')
     }
-    
+
     const blob = await response.blob()
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -271,7 +271,7 @@ const exportarDados = async () => {
     a.download = `transacoes_${new Date().toISOString().split('T')[0]}.csv`
     a.click()
     window.URL.revokeObjectURL(url)
-    
+
     Swal.fire({
       icon: 'success',
       title: 'Dados exportados!',
@@ -288,14 +288,14 @@ const importarDados = () => {
   const input = document.createElement('input')
   input.type = 'file'
   input.accept = '.csv'
-  
+
   input.onchange = async (event) => {
     const file = event.target.files[0]
     if (!file) return
-    
+
     const formData = new FormData()
     formData.append('arquivo', file)
-    
+
     try {
       const token = localStorage.getItem('token')
       const response = await fetch('/api/transacoes/importar', {
@@ -305,9 +305,9 @@ const importarDados = () => {
         },
         body: formData
       })
-      
+
       const data = await response.json()
-      
+
       if (response.ok) {
         Swal.fire({
           icon: 'success',
@@ -323,13 +323,13 @@ const importarDados = () => {
       Swal.fire('Erro', error.message || 'Erro ao importar dados', 'error')
     }
   }
-  
+
   input.click()
 }
 
 const excluirDados = () => {
   Swal.fire({
-    title: '⚠️ Atenção!',
+    title: 'Atenção!',
     text: 'Tem certeza que deseja excluir todos os seus dados? Esta ação não pode ser desfeita.',
     icon: 'warning',
     showCancelButton: true,
@@ -359,7 +359,7 @@ onMounted(() => {
 <style scoped>
 .configuracoes {
   min-height: 100vh;
-  background: linear-gradient(180deg, #F8FAFC, #F1F5F9);
+  background: #F8FAFC;
 }
 
 .container {
@@ -380,9 +380,17 @@ onMounted(() => {
 }
 
 .page-header h1 {
-  font-size: 28px;
+  font-size: 26px;
   color: #0F172A;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header h1 i {
+  color: #4F46E5;
+  font-size: 22px;
 }
 
 .text-muted {
@@ -394,22 +402,30 @@ onMounted(() => {
 .settings-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
 }
 
 .card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
-  border: 1px solid #E5E7EB;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.02);
 }
 
-.card h3 {
-  font-size: 16px;
+.card-title {
+  font-size: 15px;
   font-weight: 600;
-  color: #0F172A;
+  color: #475569;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title i {
+  color: #4F46E5;
+  font-size: 14px;
 }
 
 .settings-form {
@@ -421,41 +437,43 @@ onMounted(() => {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #0F172A;
-  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  font-size: 13px;
 }
 
 .form-group input,
 .form-group select {
-  padding: 10px 12px;
-  height: 44px;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
+  padding: 0 12px;
+  height: 42px;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
   font-size: 14px;
-  background: #F8FAFC;
-  transition: all 0.3s ease;
+  font-family: inherit;
+  background: white;
+  transition: all 0.2s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-  background: white;
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 .form-group input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  background: #F8FAFC;
 }
 
 .form-group .text-muted {
   font-size: 12px;
+  margin-top: 0;
 }
 
 .btn {
@@ -463,8 +481,9 @@ onMounted(() => {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
+  font-family: inherit;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
@@ -473,13 +492,14 @@ onMounted(() => {
 }
 
 .btn-primary {
-  background: #2563EB;
+  background: #4F46E5;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #1D4ED8;
-  transform: scale(1.02);
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 .btn-secondary {
@@ -489,7 +509,6 @@ onMounted(() => {
 
 .btn-secondary:hover {
   background: #E2E8F0;
-  transform: scale(1.02);
 }
 
 .btn-danger {
@@ -499,7 +518,7 @@ onMounted(() => {
 
 .btn-danger:hover {
   background: #DC2626;
-  transform: scale(1.02);
+  transform: translateY(-1px);
 }
 
 .button-group {
@@ -509,74 +528,41 @@ onMounted(() => {
 }
 
 .danger-zone {
-  margin-top: 16px;
+  margin-top: 8px;
   padding: 16px;
-  border: 2px solid #FEE2E2;
-  border-radius: 10px;
+  border: 1px solid #FECACA;
+  border-radius: 12px;
   background: #FEF2F2;
 }
 
 .danger-zone h4 {
-  color: #DC2626;
+  color: #EF4444;
   margin-bottom: 12px;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .toggle-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
 }
 
 .toggle-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #0F172A;
+  border-bottom: 1px solid #F1F5F9;
 }
 
-.toggle-switch {
-  position: relative;
-  width: 48px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #CBD5E1;
-  border-radius: 24px;
-  transition: 0.3s ease;
-}
-
-.toggle-slider:before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background: white;
-  border-radius: 50%;
-  transition: 0.3s ease;
-}
-
-.toggle-switch input:checked + .toggle-slider {
-  background: #2563EB;
-}
-
-.toggle-switch input:checked + .toggle-slider:before {
-  transform: translateX(24px);
+.toggle-item:last-child {
+  border-bottom: none;
 }
 
 .about-links {
@@ -587,9 +573,13 @@ onMounted(() => {
 }
 
 .link {
-  color: #2563EB;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4F46E5;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .link:hover {
@@ -606,13 +596,13 @@ onMounted(() => {
   .settings-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .button-group {
     flex-direction: column;
   }

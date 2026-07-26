@@ -17,9 +17,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     async login(email, senha) {
       try {
-        console.log('Tentando login com:', email)
         const response = await api.post('/auth/login', { email, senha })
-        console.log('Resposta do login:', response.data)
         
         const { token, nome, email: userEmail } = response.data
         
@@ -34,8 +32,7 @@ export const useAuthStore = defineStore('auth', {
         router.push('/dashboard')
         return { success: true }
       } catch (error) {
-        console.error('Erro no login:', error)
-        console.error('Resposta de erro:', error.response?.data)
+        console.error('Erro no login:', error.response?.data || error.message)
         const message = error.response?.data?.message || error.message || 'Erro ao fazer login'
         throw new Error(message)
       }

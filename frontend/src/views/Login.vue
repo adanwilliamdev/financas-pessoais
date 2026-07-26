@@ -3,58 +3,58 @@
     <div class="login-card">
       <div class="login-header">
         <div class="logo">
-          <span>💰</span>
+          <i class="pi pi-wallet"></i>
         </div>
         <h1>Finanças Pessoais</h1>
         <p>Controle suas finanças de forma inteligente</p>
       </div>
-      
+
       <form @submit.prevent="handleLogin" class="login-form">
         <div class="form-group">
           <label for="email">Email</label>
           <div class="input-wrapper">
-            <span class="input-icon">📧</span>
-            <input 
-              type="email" 
-              id="email" 
-              v-model="email" 
+            <i class="pi pi-envelope input-icon"></i>
+            <input
+              type="email"
+              id="email"
+              v-model="email"
               placeholder="seu@email.com"
               required
               autofocus
             >
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="senha">Senha</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
-            <input 
-              :type="showPassword ? 'text' : 'password'" 
-              id="senha" 
-              v-model="senha" 
+            <i class="pi pi-lock input-icon"></i>
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              id="senha"
+              v-model="senha"
               placeholder="Digite sua senha"
               required
             >
             <button type="button" @click="showPassword = !showPassword" class="toggle-password">
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+              <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
             </button>
           </div>
         </div>
-        
+
         <button type="submit" class="btn btn-primary" :disabled="loading">
           {{ loading ? 'Entrando...' : 'Entrar' }}
         </button>
-        
+
         <div v-if="erro" class="error-message">
-          <span>⚠️</span> {{ erro }}
+          <i class="pi pi-exclamation-triangle"></i> {{ erro }}
         </div>
-        
+
         <div class="login-footer">
           <p>Não tem uma conta? <router-link to="/register">Crie uma agora</router-link></p>
           <div class="credentials">
-            <span>🔑 admin@financas.com / admin123</span>
-            <span>🔑 usuario@financas.com / usuario123</span>
+            <span><i class="pi pi-key"></i> admin@financas.com / admin123</span>
+            <span><i class="pi pi-key"></i> usuario@financas.com / usuario123</span>
           </div>
         </div>
       </form>
@@ -76,7 +76,7 @@ const showPassword = ref(false)
 const handleLogin = async () => {
   loading.value = true
   erro.value = ''
-  
+
   try {
     await authStore.login(email.value, senha.value)
   } catch (error) {
@@ -93,7 +93,7 @@ const handleLogin = async () => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
   padding: 20px;
 }
 
@@ -103,7 +103,7 @@ const handleLogin = async () => {
   padding: 48px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
   animation: slideUp 0.5s ease;
 }
 
@@ -124,19 +124,20 @@ const handleLogin = async () => {
 }
 
 .logo {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: #EEF2FF;
+  color: #4F46E5;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
-  font-size: 32px;
+  font-size: 26px;
 }
 
 .login-header h1 {
-  font-size: 28px;
+  font-size: 26px;
   color: #0F172A;
   margin-bottom: 8px;
   font-weight: 700;
@@ -155,8 +156,8 @@ const handleLogin = async () => {
   display: block;
   margin-bottom: 6px;
   color: #0F172A;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 .input-wrapper {
@@ -165,19 +166,20 @@ const handleLogin = async () => {
 
 .input-wrapper input {
   width: 100%;
-  padding: 12px 16px 12px 44px;
+  padding: 12px 16px 12px 42px;
   height: 44px;
-  border: 2px solid #E2E8F0;
-  border-radius: 12px;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-family: inherit;
+  transition: all 0.2s ease;
   background: #F8FAFC;
 }
 
 .input-wrapper input:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
   background: white;
 }
 
@@ -186,43 +188,46 @@ const handleLogin = async () => {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 15px;
+  color: #94A3B8;
 }
 
 .toggle-password {
   position: absolute;
-  right: 14px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 15px;
+  color: #94A3B8;
   cursor: pointer;
   padding: 4px;
-  opacity: 0.6;
 }
 
 .toggle-password:hover {
-  opacity: 1;
+  color: #475569;
 }
 
 .btn-primary {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4F46E5;
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
-  height: 48px;
+  height: 46px;
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
 }
 
 .btn-primary:disabled {
@@ -233,11 +238,12 @@ const handleLogin = async () => {
 .error-message {
   margin-top: 16px;
   padding: 12px;
-  background: #FEE2E2;
-  color: #DC2626;
+  background: #FEF2F2;
+  color: #EF4444;
   border-radius: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,7 +262,7 @@ const handleLogin = async () => {
 }
 
 .login-footer a {
-  color: #667eea;
+  color: #4F46E5;
   text-decoration: none;
   font-weight: 600;
 }
@@ -267,13 +273,20 @@ const handleLogin = async () => {
 
 .credentials {
   font-size: 12px;
-  color: #94A3B8;
-  background: #F1F5F9;
+  color: #64748B;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   padding: 12px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+}
+
+.credentials span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 @media (max-width: 480px) {

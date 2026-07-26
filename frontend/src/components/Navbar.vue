@@ -5,32 +5,47 @@
         <i class="pi pi-wallet"></i>
         <span>Finanças</span>
       </div>
-      
+
       <div class="nav-menu" :class="{ 'nav-menu-open': menuOpen }">
         <router-link to="/dashboard" class="nav-link" @click="menuOpen = false">
-          <span class="nav-icon">🏠</span> Dashboard
+          <i class="pi pi-home nav-icon"></i> Dashboard
         </router-link>
         <router-link to="/transacoes" class="nav-link" @click="menuOpen = false">
-          <span class="nav-icon">💸</span> Transações
+          <i class="pi pi-arrow-right-arrow-left nav-icon"></i> Transações
         </router-link>
         <router-link to="/metas" class="nav-link" @click="menuOpen = false">
-          <span class="nav-icon">🎯</span> Metas
+          <i class="pi pi-flag nav-icon"></i> Metas
         </router-link>
         <router-link to="/relatorios" class="nav-link" @click="menuOpen = false">
-          <span class="nav-icon">📊</span> Relatórios
+          <i class="pi pi-chart-bar nav-icon"></i> Relatórios
         </router-link>
         <router-link to="/configuracoes" class="nav-link" @click="menuOpen = false">
-          <span class="nav-icon">⚙️</span> Configurações
+          <i class="pi pi-cog nav-icon"></i> Configurações
         </router-link>
       </div>
-      
+
       <div class="nav-actions">
-        <span class="user-name">
-          <i class="pi pi-user"></i> {{ authStore.getNome }}
-        </span>
-        <button @click="authStore.logout" class="btn btn-danger btn-sm">
-          <i class="pi pi-sign-out"></i> Sair
-        </button>
+        <div class="user-menu" ref="userMenuRef">
+          <button class="user-trigger" @click="userMenuOpen = !userMenuOpen">
+            <span class="avatar">{{ initials }}</span>
+            <span class="user-name">{{ authStore.getNome }}</span>
+            <i class="pi pi-chevron-down user-chevron"></i>
+          </button>
+
+          <div v-if="userMenuOpen" class="user-dropdown">
+            <router-link to="/configuracoes" class="dropdown-item" @click="userMenuOpen = false">
+              <i class="pi pi-user"></i> Meu Perfil
+            </router-link>
+            <router-link to="/configuracoes" class="dropdown-item" @click="userMenuOpen = false">
+              <i class="pi pi-cog"></i> Configurações
+            </router-link>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item dropdown-item-danger" @click="authStore.logout">
+              <i class="pi pi-sign-out"></i> Sair
+            </button>
+          </div>
+        </div>
+
         <button @click="menuOpen = !menuOpen" class="menu-toggle">
           <i class="pi pi-bars"></i>
         </button>
@@ -40,23 +55,43 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '../store/auth'
 
 const authStore = useAuthStore()
 const menuOpen = ref(false)
+const userMenuOpen = ref(false)
+const userMenuRef = ref(null)
+
+const initials = computed(() => {
+  const nome = authStore.getNome || ''
+  return nome
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase())
+    .join('') || 'U'
+})
+
+function handleClickOutside(e) {
+  if (userMenuRef.value && !userMenuRef.value.contains(e.target)) {
+    userMenuOpen.value = false
+  }
+}
+
+onMounted(() => document.addEventListener('click', handleClickOutside))
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <style scoped>
 .navbar {
-  background: white;
   padding: 12px 0;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E2E8F0;
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .navbar .container {
@@ -74,11 +109,11 @@ const menuOpen = ref(false)
   gap: 10px;
   font-size: 20px;
   font-weight: 700;
-  color: #2563EB;
+  color: #4F46E5;
 }
 
 .nav-brand i {
-  font-size: 28px;
+  font-size: 26px;
 }
 
 .nav-menu {
@@ -90,9 +125,9 @@ const menuOpen = ref(false)
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 10px 16px;
-  border-radius: 12px;
+  border-radius: 10px;
   color: #64748B;
   text-decoration: none;
   font-weight: 500;
@@ -106,12 +141,13 @@ const menuOpen = ref(false)
 }
 
 .nav-link.router-link-active {
-  background: #EFF6FF;
-  color: #2563EB;
+  background: #EEF2FF;
+  color: #4F46E5;
+  font-weight: 600;
 }
 
 .nav-link .nav-icon {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .nav-actions {
@@ -120,45 +156,108 @@ const menuOpen = ref(false)
   gap: 12px;
 }
 
+/* Avatar / user dropdown */
+.user-menu {
+  position: relative;
+}
+
+.user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px 4px 4px;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.user-trigger:hover {
+  background: #F1F5F9;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #EEF2FF;
+  color: #4F46E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
 .user-name {
   font-size: 14px;
   color: #0F172A;
-  display: flex;
-  align-items: center;
-  gap: 6px;
   font-weight: 500;
 }
 
-.btn-danger {
-  background: #EF4444;
-  color: white;
-  padding: 8px 16px;
-  border: none;
+.user-chevron {
+  font-size: 11px;
+  color: #94A3B8;
+}
+
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 200px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
   border-radius: 8px;
+  color: #334155;
   font-size: 14px;
   font-weight: 500;
+  text-decoration: none;
+  background: none;
+  border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s ease;
 }
 
-.btn-danger:hover {
-  background: #DC2626;
-  transform: scale(1.02);
+.dropdown-item:hover {
+  background: #F1F5F9;
 }
 
-.btn-sm {
-  padding: 6px 14px;
-  font-size: 12px;
+.dropdown-item-danger {
+  color: #EF4444;
+}
+
+.dropdown-item-danger:hover {
+  background: #FEF2F2;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #E2E8F0;
+  margin: 4px 2px;
 }
 
 .menu-toggle {
   display: none;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 22px;
   color: #0F172A;
   cursor: pointer;
   padding: 4px;
@@ -173,24 +272,24 @@ const menuOpen = ref(false)
     background: white;
     flex-direction: column;
     padding: 20px;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 1px solid #E2E8F0;
     transform: translateY(-120%);
     transition: transform 0.3s ease;
   }
-  
+
   .nav-menu-open {
     transform: translateY(0);
   }
-  
+
   .nav-link {
     width: 100%;
     padding: 12px 16px;
   }
-  
+
   .menu-toggle {
     display: block;
   }
-  
+
   .user-name {
     display: none;
   }

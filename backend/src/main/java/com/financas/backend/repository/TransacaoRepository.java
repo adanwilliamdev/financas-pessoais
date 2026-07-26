@@ -16,8 +16,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     
     List<Transacao> findByUsuarioAndDataBetweenOrderByDataDesc(Usuario usuario, LocalDate inicio, LocalDate fim);
     
-    List<Transacao> findByUsuarioAndCategoria(Usuario usuario, String categoria);
-    
     @Query("SELECT SUM(t.valor) FROM Transacao t WHERE t.usuario = :usuario AND t.tipo = :tipo AND t.data BETWEEN :inicio AND :fim")
     BigDecimal sumByUsuarioAndTipoAndDataBetween(
         @Param("usuario") Usuario usuario,

@@ -1,11 +1,11 @@
 <template>
   <div class="transacoes">
     <Navbar />
-    
+
     <div class="container">
       <div class="page-header">
         <div>
-          <h1>💸 Transações</h1>
+          <h1><i class="pi pi-arrow-right-arrow-left"></i> Transações</h1>
           <p class="text-muted">Gerencie todas as suas movimentações financeiras</p>
         </div>
         <div class="header-actions">
@@ -15,16 +15,16 @@
           <button @click="triggerFileInput" class="btn btn-secondary">
             <i class="pi pi-upload"></i> Importar
           </button>
-          <input 
-            type="file" 
-            ref="fileInput" 
-            @change="handleFileUpload" 
+          <input
+            type="file"
+            ref="fileInput"
+            @change="handleFileUpload"
             accept=".csv,.ofx"
             style="display: none"
           >
         </div>
       </div>
-      
+
       <div class="filters card">
         <div class="filter-group">
           <label>Tipo</label>
@@ -56,7 +56,7 @@
           <i class="pi pi-times"></i> Limpar
         </button>
       </div>
-      
+
       <div class="card">
         <div class="table-header">
           <span>{{ transacoesFiltradas.length }} transações</span>
@@ -64,7 +64,7 @@
             Total: R$ {{ formatarValor(totalFiltrado) }}
           </span>
         </div>
-        
+
         <div v-if="transacoesFiltradas.length > 0" class="table-container">
           <table>
             <thead>
@@ -83,7 +83,8 @@
                 <td><span class="badge-category">{{ transacao.categoria }}</span></td>
                 <td>
                   <span class="badge" :class="transacao.tipo === 'RECEITA' ? 'badge-success' : 'badge-danger'">
-                    {{ transacao.tipo }}
+                    <i :class="transacao.tipo === 'RECEITA' ? 'pi pi-arrow-up-right' : 'pi pi-arrow-down-right'"></i>
+                    {{ transacao.tipo === 'RECEITA' ? 'Receita' : 'Despesa' }}
                   </span>
                 </td>
                 <td class="text-right" :class="transacao.tipo === 'RECEITA' ? 'positive' : 'negative'">
@@ -94,22 +95,22 @@
           </table>
         </div>
         <div v-else class="empty-state">
-          <span class="empty-icon">📭</span>
-          <p>Nenhuma transação encontrada</p>
-          <span class="empty-sub">Comece adicionando sua primeira transação</span>
+          <div class="empty-state-icon"><i class="pi pi-file"></i></div>
+          <p class="empty-state-title">Nenhuma transação encontrada</p>
+          <span class="empty-state-subtitle">Você ainda não possui transações cadastradas neste período.</span>
           <button @click="showModal = true" class="btn btn-primary btn-sm">
             <i class="pi pi-plus"></i> Adicionar
           </button>
         </div>
       </div>
     </div>
-    
+
     <!-- Modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
       <div class="modal">
         <div class="modal-header">
           <h2>Nova Transação</h2>
-          <button @click="showModal = false" class="close-btn">✕</button>
+          <button @click="showModal = false" class="close-btn"><i class="pi pi-times"></i></button>
         </div>
         <form @submit.prevent="salvarTransacao" class="modal-body">
           <div class="form-group">
@@ -119,10 +120,10 @@
           <div class="form-row">
             <div class="form-group">
               <label>Valor *</label>
-              <input 
-                type="number" 
-                v-model="novaTransacao.valor" 
-                required 
+              <input
+                type="number"
+                v-model="novaTransacao.valor"
+                required
                 step="0.01"
                 placeholder="0.00"
               >
@@ -149,7 +150,7 @@
             <label>Observação</label>
             <textarea v-model="novaTransacao.observacao" rows="2" placeholder="Observações..."></textarea>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" @click="showModal = false" class="btn btn-outline">Cancelar</button>
             <button type="submit" class="btn btn-primary" :disabled="salvando">
@@ -197,7 +198,7 @@ const categorias = computed(() => {
 
 const transacoesFiltradas = computed(() => {
   let filtered = transacoes.value
-  
+
   if (filtro.value.tipo) {
     filtered = filtered.filter(t => t.tipo === filtro.value.tipo)
   }
@@ -210,7 +211,7 @@ const transacoesFiltradas = computed(() => {
   if (filtro.value.dataFim) {
     filtered = filtered.filter(t => t.data <= filtro.value.dataFim)
   }
-  
+
   return filtered
 })
 
@@ -272,7 +273,7 @@ const triggerFileInput = () => {
 const handleFileUpload = async (event) => {
   const file = event.target.files[0]
   if (!file) return
-  
+
   try {
     const result = await transacoesStore.importarArquivo(file)
     await carregarTransacoes()
@@ -302,7 +303,7 @@ onMounted(() => {
 <style scoped>
 .transacoes {
   min-height: 100vh;
-  background: linear-gradient(180deg, #F8FAFC, #F1F5F9);
+  background: #F8FAFC;
 }
 
 .container {
@@ -323,9 +324,17 @@ onMounted(() => {
 }
 
 .page-header h1 {
-  font-size: 28px;
+  font-size: 26px;
   color: #0F172A;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header h1 i {
+  color: #4F46E5;
+  font-size: 22px;
 }
 
 .text-muted {
@@ -346,47 +355,49 @@ onMounted(() => {
   margin-bottom: 24px;
   padding: 20px;
   background: white;
-  border-radius: 12px;
-  border: 1px solid #E5E7EB;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.02);
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .filter-group label {
   font-size: 12px;
-  color: #64748B;
-  font-weight: 500;
+  color: #475569;
+  font-weight: 600;
 }
 
 .filter-group select,
 .filter-group input {
-  padding: 8px 12px;
-  height: 40px;
-  border: 1px solid #E2E8F0;
+  padding: 0 12px;
+  height: 42px;
+  border: 1px solid #CBD5E1;
   border-radius: 8px;
   font-size: 14px;
-  background: #F8FAFC;
+  font-family: inherit;
+  background: white;
   min-width: 140px;
+  transition: all 0.2s ease;
 }
 
 .filter-group select:focus,
 .filter-group input:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 .card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
-  border: 1px solid #E5E7EB;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.02);
 }
 
 .table-header {
@@ -395,7 +406,8 @@ onMounted(() => {
   align-items: center;
   margin-bottom: 16px;
   font-size: 14px;
-  color: #64748B;
+  color: #475569;
+  font-weight: 600;
 }
 
 .table-container {
@@ -415,21 +427,19 @@ th {
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #0F172A;
-  border-bottom: 2px solid #E2E8F0;
-  font-size: 13px;
+  color: #475569;
+  border-bottom: 1px solid #E2E8F0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 tbody tr {
   transition: background 0.2s ease;
 }
 
-tbody tr:nth-child(even) {
-  background: #F8FAFC;
-}
-
 tbody tr:hover {
-  background: #EFF6FF;
+  background: #F8FAFC;
 }
 
 td {
@@ -446,32 +456,38 @@ td {
 .badge-category {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   background: #F1F5F9;
-  color: #64748B;
+  color: #475569;
 }
 
 .badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+.badge i {
+  font-size: 10px;
 }
 
 .badge-success {
-  background: #22C55E20;
-  color: #22C55E;
+  background: #ECFDF5;
+  color: #10B981;
 }
 
 .badge-danger {
-  background: #EF444420;
+  background: #FEF2F2;
   color: #EF4444;
 }
 
-.positive { color: #22C55E; }
+.positive { color: #10B981; }
 .negative { color: #EF4444; }
 
 .btn {
@@ -479,8 +495,9 @@ td {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
+  font-family: inherit;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
@@ -488,13 +505,14 @@ td {
 }
 
 .btn-primary {
-  background: #2563EB;
+  background: #4F46E5;
   color: white;
 }
 
 .btn-primary:hover {
-  background: #1D4ED8;
-  transform: scale(1.02);
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 .btn-secondary {
@@ -504,18 +522,17 @@ td {
 
 .btn-secondary:hover {
   background: #E2E8F0;
-  transform: scale(1.02);
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid #E2E8F0;
-  color: #64748B;
+  border: 1.5px solid #E2E8F0;
+  color: #475569;
 }
 
 .btn-outline:hover {
-  border-color: #2563EB;
-  color: #2563EB;
+  border-color: #4F46E5;
+  color: #4F46E5;
 }
 
 .btn-sm {
@@ -524,28 +541,38 @@ td {
 }
 
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 60px 20px;
-  color: #64748B;
 }
 
-.empty-icon {
-  font-size: 48px;
-  display: block;
-  margin-bottom: 12px;
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #F1F5F9;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 16px;
 }
 
-.empty-state p {
-  font-size: 16px;
-  font-weight: 500;
+.empty-state-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
   margin-bottom: 4px;
 }
 
-.empty-sub {
-  font-size: 14px;
-  color: #94A3B8;
-  display: block;
-  margin-bottom: 16px;
+.empty-state-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  max-width: 320px;
+  margin-bottom: 20px;
 }
 
 .modal-overlay {
@@ -560,7 +587,7 @@ td {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -575,13 +602,13 @@ td {
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.25s ease;
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -598,21 +625,25 @@ td {
 }
 
 .modal-header h2 {
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 700;
   color: #0F172A;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 16px;
   color: #64748B;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
 }
 
 .close-btn:hover {
   color: #0F172A;
+  background: #F1F5F9;
 }
 
 .modal-body {
@@ -635,31 +666,36 @@ td {
 .form-group label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 500;
-  color: #0F172A;
-  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  font-size: 13px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
+  padding: 0 12px;
+  height: 42px;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
   font-size: 14px;
-  background: #F8FAFC;
-  transition: all 0.3s ease;
+  background: white;
+  transition: all 0.2s ease;
   font-family: inherit;
+}
+
+.form-group textarea {
+  padding: 10px 12px;
+  height: auto;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-  background: white;
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 .form-row {
@@ -679,24 +715,24 @@ td {
     gap: 16px;
     align-items: stretch;
   }
-  
+
   .header-actions {
     flex-direction: column;
   }
-  
+
   .filters {
     flex-direction: column;
   }
-  
+
   .filter-group select,
   .filter-group input {
     min-width: auto;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .modal {
     width: 95%;
   }

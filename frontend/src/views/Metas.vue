@@ -1,24 +1,24 @@
-﻿<template>
+<template>
   <div class="metas">
     <Navbar />
-    
+
     <div class="container">
       <div class="page-header">
-        <h1>🎯 Metas de Economia</h1>
+        <h1><i class="pi pi-flag"></i> Metas de Economia</h1>
         <button @click="showModal = true" class="btn btn-primary">
           <i class="pi pi-plus"></i> Nova Meta
         </button>
       </div>
-      
+
       <div v-if="metas.length > 0" class="metas-grid">
         <div v-for="meta in metas" :key="meta.id" class="meta-card">
           <div class="meta-header">
             <span class="meta-categoria">{{ meta.categoria }}</span>
-            <span class="meta-status" :class="meta.ativo ? 'status-ativo' : 'status-concluido'">
+            <span class="tag" :class="meta.ativo ? 'tag-info' : 'tag-success'">
               {{ meta.ativo ? 'Em andamento' : 'Concluída' }}
             </span>
           </div>
-          
+
           <div class="meta-valores">
             <div>
               <span class="label">Meta</span>
@@ -35,34 +35,35 @@
               </span>
             </div>
           </div>
-          
+
           <div class="meta-progresso">
-            <div class="progress-bar">
-              <div class="progress-fill" :style="{ width: meta.porcentagemConclusao + '%' }"></div>
+            <div class="progress-track">
+              <div class="progress-fill progress-fill-primary" :style="{ width: meta.porcentagemConclusao + '%' }"></div>
             </div>
-            <span class="progress-text">{{ meta.porcentagemConclusao.toFixed(1) }}%</span>
+            <span class="progress-badge">{{ meta.porcentagemConclusao.toFixed(0) }}%</span>
           </div>
-          
+
           <div class="meta-periodo">
             <i class="pi pi-calendar"></i>
             {{ formatarData(meta.dataInicio) }} - {{ formatarData(meta.dataFim) }}
           </div>
-          
+
           <button @click="atualizarProgresso(meta.id)" class="btn btn-secondary btn-sm btn-block">
             <i class="pi pi-refresh"></i> Atualizar Progresso
           </button>
         </div>
       </div>
-      
+
       <div v-else class="empty-state">
-        <i class="pi pi-flag"></i>
-        <p>Nenhuma meta criada</p>
+        <div class="empty-state-icon"><i class="pi pi-flag"></i></div>
+        <p class="empty-state-title">Nenhuma meta criada</p>
+        <span class="empty-state-subtitle">Defina metas de economia por categoria e acompanhe seu progresso.</span>
         <button @click="showModal = true" class="btn btn-primary">
           <i class="pi pi-plus"></i> Criar sua primeira meta
         </button>
       </div>
     </div>
-    
+
     <!-- Modal Nova Meta -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
       <div class="modal">
@@ -79,10 +80,10 @@
           </div>
           <div class="form-group">
             <label>Valor Meta *</label>
-            <input 
-              type="number" 
-              v-model="novaMeta.valorMeta" 
-              required 
+            <input
+              type="number"
+              v-model="novaMeta.valorMeta"
+              required
               step="0.01"
               placeholder="0.00"
             >
@@ -97,7 +98,7 @@
               <input type="date" v-model="novaMeta.dataFim" required>
             </div>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" @click="showModal = false" class="btn btn-outline">Cancelar</button>
             <button type="submit" class="btn btn-primary" :disabled="salvando">
@@ -168,7 +169,7 @@ const salvarMeta = async () => {
 
 const atualizarProgresso = async (id) => {
   try {
-    await api.put(/metas//progresso)
+    await api.put(`/metas/${id}/progresso`)
     await carregarMetas()
     Swal.fire('Sucesso', 'Progresso atualizado!', 'success')
   } catch (error) {
@@ -184,42 +185,53 @@ onMounted(() => {
 <style scoped>
 .metas {
   min-height: 100vh;
-  background: #f0f2f5;
+  background: #F8FAFC;
 }
 
 .container {
-  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 24px;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .page-header h1 {
-  font-size: 28px;
-  color: #333;
+  font-size: 26px;
+  color: #0F172A;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header h1 i {
+  color: #4F46E5;
+  font-size: 22px;
 }
 
 .metas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 20px;
 }
 
 .meta-card {
   background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.02);
+  transition: all 0.2s ease;
 }
 
 .meta-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
 .meta-header {
@@ -230,27 +242,22 @@ onMounted(() => {
 }
 
 .meta-categoria {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
 }
 
-.meta-status {
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 12px;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.status-ativo {
-  background: #e3f2fd;
-  color: #2196f3;
-}
-
-.status-concluido {
-  background: #e8f5e9;
-  color: #4caf50;
-}
+.tag-info { background: #EFF6FF; color: #3B82F6; }
+.tag-success { background: #ECFDF5; color: #10B981; }
 
 .meta-valores {
   display: grid;
@@ -262,72 +269,106 @@ onMounted(() => {
 .meta-valores .label {
   display: block;
   font-size: 12px;
-  color: #888;
+  color: #64748B;
   margin-bottom: 4px;
 }
 
 .meta-valores .valor {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
 }
+
+.positive { color: #10B981; }
+.negative { color: #EF4444; }
 
 .meta-progresso {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
-.progress-bar {
+.progress-track {
   flex: 1;
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
+  height: 10px;
+  background: #F1F5F9;
+  border-radius: 999px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
-  border-radius: 4px;
+  border-radius: 999px;
   transition: width 0.6s ease;
 }
 
-.progress-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  min-width: 48px;
-  text-align: right;
+.progress-fill-primary {
+  background: #4F46E5;
+}
+
+.progress-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #EEF2FF;
+  color: #4F46E5;
+  min-width: 40px;
+  text-align: center;
 }
 
 .meta-periodo {
   font-size: 13px;
-  color: #888;
+  color: #64748B;
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 80px 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+.btn-block {
+  width: 100%;
+  justify-content: center;
 }
 
-.empty-state i {
-  font-size: 64px;
-  color: #ddd;
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 72px 20px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05), 0 1px 2px 0 rgba(0,0,0,0.02);
+}
+
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #F1F5F9;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
   margin-bottom: 16px;
 }
 
-.empty-state p {
-  color: #888;
+.empty-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.empty-state-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  max-width: 340px;
   margin-bottom: 20px;
-  font-size: 18px;
 }
 
 .modal-overlay {
@@ -336,12 +377,13 @@ onMounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -356,13 +398,13 @@ onMounted(() => {
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.25s ease;
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -375,25 +417,29 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #E2E8F0;
 }
 
 .modal-header h2 {
-  font-size: 20px;
-  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
 }
 
 .close-btn {
   background: none;
   border: none;
-  font-size: 24px;
-  color: #888;
+  font-size: 16px;
+  color: #64748B;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
 }
 
 .close-btn:hover {
-  color: #333;
+  color: #0F172A;
+  background: #F1F5F9;
 }
 
 .modal-body {
@@ -406,7 +452,7 @@ onMounted(() => {
   gap: 12px;
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #E2E8F0;
 }
 
 .form-row {
@@ -422,23 +468,82 @@ onMounted(() => {
 .form-group label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 500;
-  color: #555;
-  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  font-size: 13px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #CBD5E1;
   border-radius: 8px;
   font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #4F46E5;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.btn-secondary {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.btn-secondary:hover {
+  background: #E2E8F0;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid #E2E8F0;
+  color: #475569;
+}
+
+.btn-outline:hover {
+  border-color: #4F46E5;
+  color: #4F46E5;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 @media (max-width: 768px) {
@@ -447,19 +552,19 @@ onMounted(() => {
     gap: 16px;
     align-items: stretch;
   }
-  
+
   .metas-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .meta-valores {
     grid-template-columns: 1fr 1fr 1fr;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .modal {
     width: 95%;
   }

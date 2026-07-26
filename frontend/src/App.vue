@@ -23,8 +23,9 @@ onMounted(() => {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f2f5;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #F8FAFC;
+  color: #0F172A;
 }
 
 #app {
@@ -36,15 +37,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #94A3B8;
 }
 </style>

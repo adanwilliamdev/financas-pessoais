@@ -17,7 +17,6 @@ com\financas\backend\security\JwtService.class
 com\financas\backend\controller\AuthController.class
 com\financas\backend\repository\UsuarioRepository.class
 com\financas\backend\service\ArquivoService.class
-com\financas\backend\config\WebConfig.class
 com\financas\backend\service\TransacaoService.class
 com\financas\backend\BackendApplication.class
 com\financas\backend\config\SecurityConfig.class

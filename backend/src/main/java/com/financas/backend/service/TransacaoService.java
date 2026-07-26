@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class TransacaoService {
         // Validar data
         if (transacao.getData() == null || transacao.getData().isBefore(LocalDate.of(1900, 1, 1))) {
             transacao.setData(LocalDate.now());
-            log.warn("Data invÃ¡lida corrigida para: {}", transacao.getData());
+            log.warn("Data inválida corrigida para: {}", transacao.getData());
         }
         return transacaoRepository.save(transacao);
     }
@@ -85,7 +86,7 @@ public class TransacaoService {
             
             return receitas.subtract(despesas);
         } catch (Exception e) {
-            log.error("Erro ao calcular saldo do perÃ­odo: {}", e.getMessage());
+            log.error("Erro ao calcular saldo do período: {}", e.getMessage());
             return BigDecimal.ZERO;
         }
     }
@@ -110,6 +111,26 @@ public class TransacaoService {
         return resumo;
     }
     
+    public String exportarParaCsv(Usuario usuario) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        StringBuilder csv = new StringBuilder("Descricao,Valor,Data,Categoria,Tipo,Observacao\n");
+
+        for (Transacao t : transacaoRepository.findByUsuarioOrderByDataDesc(usuario)) {
+            csv.append(csvField(t.getDescricao())).append(',')
+               .append(t.getValor()).append(',')
+               .append(t.getData().format(formatter)).append(',')
+               .append(csvField(t.getCategoria())).append(',')
+               .append(t.getTipo()).append(',')
+               .append(csvField(t.getObservacao())).append('\n');
+        }
+        return csv.toString();
+    }
+
+    private String csvField(String value) {
+        if (value == null) return "";
+        return value.contains(",") ? "\"" + value.replace("\"", "\"\"") + "\"" : value;
+    }
+
     public TransacaoDTO toDTO(Transacao transacao) {
         TransacaoDTO dto = new TransacaoDTO();
         dto.setId(transacao.getId());

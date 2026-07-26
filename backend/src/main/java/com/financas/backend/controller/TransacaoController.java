@@ -22,7 +22,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/transacoes")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class TransacaoController {
     
     private final TransacaoService transacaoService;
@@ -71,12 +70,8 @@ public class TransacaoController {
         LocalDate inicioMes = hoje.withDayOfMonth(1);
         LocalDate fimMes = hoje.withDayOfMonth(hoje.lengthOfMonth());
         
-        // Calcular saldos
+        // Calcular saldo total e receitas/despesas do mês atual
         BigDecimal saldoTotal = transacaoService.calcularSaldo(usuario);
-        BigDecimal receitasMes = transacaoService.calcularSaldoPeriodo(usuario, inicioMes, fimMes);
-        BigDecimal despesasMes = transacaoService.calcularSaldoPeriodo(usuario, inicioMes, fimMes);
-        
-        // Calcular receitas e despesas separadamente
         BigDecimal receitas = transacaoService.getReceitasPeriodo(usuario, inicioMes, fimMes);
         BigDecimal despesas = transacaoService.getDespesasPeriodo(usuario, inicioMes, fimMes);
         
@@ -90,6 +85,17 @@ public class TransacaoController {
         response.put("categorias", categorias != null ? categorias : new HashMap<>());
         
         return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/exportar")
+    public ResponseEntity<String> exportarDados(Authentication auth) {
+        Usuario usuario = usuarioService.buscarPorEmail(auth.getName());
+        String csv = transacaoService.exportarParaCsv(usuario);
+
+        return ResponseEntity.ok()
+            .header("Content-Type", "text/csv; charset=UTF-8")
+            .header("Content-Disposition", "attachment; filename=transacoes.csv")
+            .body(csv);
     }
     
     @PostMapping("/importar")

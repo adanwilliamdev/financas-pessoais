@@ -3,7 +3,7 @@
     <div class="register-card">
       <div class="register-header">
         <div class="logo">
-          <span>💰</span>
+          <i class="pi pi-wallet"></i>
         </div>
         <h1>Criar Conta</h1>
         <p>Cadastre-se para começar a controlar suas finanças</p>
@@ -13,7 +13,7 @@
         <div class="form-group">
           <label for="nome">Nome</label>
           <div class="input-wrapper">
-            <span class="input-icon">👤</span>
+            <i class="pi pi-user input-icon"></i>
             <input 
               type="text" 
               id="nome" 
@@ -27,7 +27,7 @@
         <div class="form-group">
           <label for="email">Email</label>
           <div class="input-wrapper">
-            <span class="input-icon">📧</span>
+            <i class="pi pi-envelope input-icon"></i>
             <input 
               type="email" 
               id="email" 
@@ -41,7 +41,7 @@
         <div class="form-group">
           <label for="senha">Senha</label>
           <div class="input-wrapper">
-            <span class="input-icon">🔒</span>
+            <i class="pi pi-lock input-icon"></i>
             <input 
               :type="showPassword ? 'text' : 'password'" 
               id="senha" 
@@ -51,7 +51,7 @@
               minlength="6"
             >
             <button type="button" @click="showPassword = !showPassword" class="toggle-password">
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+              <i :class="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
             </button>
           </div>
           <small class="text-muted">A senha deve ter no mínimo 6 caracteres</small>
@@ -60,7 +60,7 @@
         <div class="form-group">
           <label for="confirmarSenha">Confirmar Senha</label>
           <div class="input-wrapper">
-            <span class="input-icon">✅</span>
+            <i class="pi pi-check-circle input-icon"></i>
             <input 
               :type="showConfirmPassword ? 'text' : 'password'" 
               id="confirmarSenha" 
@@ -69,7 +69,7 @@
               required
             >
             <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="toggle-password">
-              {{ showConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+              <i :class="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
             </button>
           </div>
         </div>
@@ -79,11 +79,11 @@
         </button>
         
         <div v-if="erro" class="error-message">
-          <span>⚠️</span> {{ erro }}
+          <i class="pi pi-exclamation-triangle"></i> {{ erro }}
         </div>
         
         <div v-if="sucesso" class="success-message">
-          <span>✅</span> {{ sucesso }}
+          <i class="pi pi-check-circle"></i> {{ sucesso }}
         </div>
         
         <div class="register-footer">
@@ -132,7 +132,7 @@ const handleRegister = async () => {
       senha: senha.value
     })
     
-    sucesso.value = '✅ Cadastro realizado com sucesso! Redirecionando...'
+    sucesso.value = 'Cadastro realizado com sucesso! Redirecionando...'
     
     setTimeout(() => {
       router.push('/login')
@@ -152,7 +152,7 @@ const handleRegister = async () => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
   padding: 20px;
 }
 
@@ -162,7 +162,7 @@ const handleRegister = async () => {
   padding: 48px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
   animation: slideUp 0.5s ease;
 }
 
@@ -183,19 +183,20 @@ const handleRegister = async () => {
 }
 
 .logo {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: #EEF2FF;
+  color: #4F46E5;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
-  font-size: 32px;
+  font-size: 26px;
 }
 
 .register-header h1 {
-  font-size: 28px;
+  font-size: 26px;
   color: #0F172A;
   margin-bottom: 8px;
   font-weight: 700;
@@ -214,8 +215,8 @@ const handleRegister = async () => {
   display: block;
   margin-bottom: 6px;
   color: #0F172A;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 .input-wrapper {
@@ -226,18 +227,19 @@ const handleRegister = async () => {
   width: 100%;
   padding: 12px 16px 12px 44px;
   height: 44px;
-  border: 2px solid #E2E8F0;
-  border-radius: 12px;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-family: inherit;
+  transition: all 0.2s ease;
   background: #F8FAFC;
   box-sizing: border-box;
 }
 
 .input-wrapper input:focus {
   outline: none;
-  border-color: #2563EB;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
   background: white;
 }
 
@@ -246,24 +248,25 @@ const handleRegister = async () => {
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
+  font-size: 15px;
+  color: #94A3B8;
 }
 
 .toggle-password {
   position: absolute;
-  right: 14px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 15px;
+  color: #94A3B8;
   cursor: pointer;
   padding: 4px;
-  opacity: 0.6;
 }
 
 .toggle-password:hover {
-  opacity: 1;
+  color: #475569;
 }
 
 .text-muted {
@@ -276,20 +279,22 @@ const handleRegister = async () => {
 .btn-primary {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #4F46E5;
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   transition: all 0.2s ease;
-  height: 48px;
+  height: 46px;
 }
 
 .btn-primary:hover:not(:disabled) {
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  background: #4338CA;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
 }
 
 .btn-primary:disabled {
@@ -300,11 +305,12 @@ const handleRegister = async () => {
 .error-message {
   margin-top: 16px;
   padding: 12px;
-  background: #FEE2E2;
-  color: #DC2626;
+  background: #FEF2F2;
+  color: #EF4444;
   border-radius: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -314,11 +320,12 @@ const handleRegister = async () => {
 .success-message {
   margin-top: 16px;
   padding: 12px;
-  background: #DCFCE7;
-  color: #16A34A;
+  background: #ECFDF5;
+  color: #10B981;
   border-radius: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -336,7 +343,7 @@ const handleRegister = async () => {
 }
 
 .register-footer a {
-  color: #667eea;
+  color: #4F46E5;
   text-decoration: none;
   font-weight: 600;
 }
