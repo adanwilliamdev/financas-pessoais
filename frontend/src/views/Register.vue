@@ -1,5 +1,17 @@
 <template>
   <div class="register-container">
+    <div class="register-showcase">
+      <div class="showcase-badge"><i class="pi pi-wallet"></i></div>
+      <h2>Comece a organizar suas finanças hoje</h2>
+      <p>Crie sua conta gratuita e tenha controle total sobre receitas, despesas e metas.</p>
+      <ul class="showcase-list">
+        <li><i class="pi pi-check"></i> Cadastro rápido, sem cartão de crédito</li>
+        <li><i class="pi pi-bolt"></i> Dashboard pronto em segundos</li>
+        <li><i class="pi pi-lock"></i> Seus dados sempre protegidos</li>
+      </ul>
+      <div class="showcase-glow"></div>
+    </div>
+
     <div class="register-card">
       <div class="register-header">
         <div class="logo">
@@ -148,21 +160,96 @@ const handleRegister = async () => {
 
 <style scoped>
 .register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
-  padding: 20px;
+  background: #F8FAFC;
+}
+
+/* Painel de destaque à esquerda */
+.register-showcase {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 64px;
+  background: var(--primary-gradient, linear-gradient(135deg, #6366F1 0%, #4338CA 100%));
+  color: white;
+}
+
+.showcase-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 70%);
+  bottom: -140px;
+  left: -120px;
+  pointer-events: none;
+}
+
+.showcase-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.register-showcase h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 380px;
+}
+
+.register-showcase > p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.showcase-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.showcase-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.showcase-list i {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .register-card {
   background: white;
-  border-radius: 20px;
   padding: 48px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  max-width: 420px;
+  margin: auto;
   animation: slideUp 0.5s ease;
 }
 
@@ -174,6 +261,16 @@ const handleRegister = async () => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .register-container {
+    grid-template-columns: 1fr;
+  }
+
+  .register-showcase {
+    display: none;
   }
 }
 

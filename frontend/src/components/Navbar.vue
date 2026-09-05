@@ -2,7 +2,7 @@
   <nav class="navbar">
     <div class="container">
       <div class="nav-brand">
-        <i class="pi pi-wallet"></i>
+        <span class="nav-brand-badge"><i class="pi pi-wallet"></i></span>
         <span>Finanças</span>
       </div>
 
@@ -90,8 +90,9 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .navbar .container {
@@ -107,13 +108,23 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 20px;
-  font-weight: 700;
-  color: #4F46E5;
+  font-size: 19px;
+  font-weight: 800;
+  color: #1E1B4B;
+  letter-spacing: -0.02em;
 }
 
-.nav-brand i {
-  font-size: 26px;
+.nav-brand-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366F1 0%, #4338CA 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+  font-size: 16px;
 }
 
 .nav-menu {
@@ -141,9 +152,10 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 }
 
 .nav-link.router-link-active {
-  background: #EEF2FF;
-  color: #4F46E5;
+  background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+  color: #4338CA;
   font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.12);
 }
 
 .nav-link .nav-icon {
@@ -181,8 +193,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #EEF2FF;
-  color: #4F46E5;
+  background: linear-gradient(135deg, #818CF8 0%, #4F46E5 100%);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;

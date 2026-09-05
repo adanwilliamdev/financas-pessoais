@@ -3,6 +3,8 @@
   --primary-color: #4F46E5;
   --primary-dark: #4338CA;
   --primary-light: #EEF2FF;
+  --primary-gradient: linear-gradient(135deg, #6366F1 0%, #4F46E5 55%, #4338CA 100%);
+  --accent-gradient: linear-gradient(135deg, #818CF8 0%, #38BDF8 100%);
 
   /* Funcionais */
   --success-color: #10B981;
@@ -25,10 +27,11 @@
   --border-color: #E2E8F0;
   --border-color-strong: #CBD5E1;
 
-  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
-  --shadow-hover: 0 8px 24px rgba(15, 23, 42, 0.08);
-  --border-radius: 16px;
-  --border-radius-sm: 8px;
+  --shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-hover: 0 16px 32px -12px rgba(79, 70, 229, 0.18);
+  --border-radius: 18px;
+  --border-radius-sm: 10px;
+  --font-sans: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
@@ -44,11 +47,27 @@
   border-radius: var(--border-radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  transition: all 0.2s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 
 .card:hover {
   box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+  border-color: #E0E7FF;
+}
+
+/* Variante com destaque em gradiente sutil (usar em cards de KPI/hero) */
+.card-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--primary-gradient);
 }
 
 .card-title {
@@ -107,14 +126,15 @@
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--primary-gradient);
   color: white;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.18);
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
+  filter: brightness(1.06);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
 }
 
 .btn-secondary {

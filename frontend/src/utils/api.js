@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+// Permite sobrescrever a URL base via variável de ambiente (VITE_API_URL),
+// mantendo '/api' como padrão para desenvolvimento com proxy do Vite.
+const baseURL = import.meta.env.VITE_API_URL || '/api'
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'

@@ -1,12 +1,24 @@
 <template>
   <div class="login-container">
+    <div class="login-showcase">
+      <div class="showcase-badge"><i class="pi pi-wallet"></i></div>
+      <h2>Finanças Pessoais</h2>
+      <p>Acompanhe receitas, despesas e metas em um só lugar, com clareza e no seu ritmo.</p>
+      <ul class="showcase-list">
+        <li><i class="pi pi-chart-line"></i> Visão completa do seu fluxo de caixa</li>
+        <li><i class="pi pi-flag"></i> Metas de economia com progresso em tempo real</li>
+        <li><i class="pi pi-shield"></i> Seus dados protegidos com autenticação segura</li>
+      </ul>
+      <div class="showcase-glow"></div>
+    </div>
+
     <div class="login-card">
       <div class="login-header">
         <div class="logo">
           <i class="pi pi-wallet"></i>
         </div>
-        <h1>Finanças Pessoais</h1>
-        <p>Controle suas finanças de forma inteligente</p>
+        <h1>Bem-vindo de volta</h1>
+        <p>Entre para continuar controlando suas finanças</p>
       </div>
 
       <form @submit.prevent="handleLogin" class="login-form">
@@ -89,21 +101,96 @@ const handleLogin = async () => {
 
 <style scoped>
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
   min-height: 100vh;
-  background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
-  padding: 20px;
+  background: #F8FAFC;
+}
+
+/* Painel de destaque à esquerda */
+.login-showcase {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 64px;
+  background: var(--primary-gradient, linear-gradient(135deg, #6366F1 0%, #4338CA 100%));
+  color: white;
+}
+
+.showcase-glow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 70%);
+  top: -120px;
+  right: -120px;
+  pointer-events: none;
+}
+
+.showcase-badge {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.login-showcase h2 {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 380px;
+}
+
+.login-showcase > p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.showcase-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.showcase-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.showcase-list i {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-card {
   background: white;
-  border-radius: 20px;
   padding: 48px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  max-width: 420px;
+  margin: auto;
   animation: slideUp 0.5s ease;
 }
 
@@ -115,6 +202,20 @@ const handleLogin = async () => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .login-showcase {
+    display: none;
+  }
+
+  .login-card {
+    box-shadow: none;
   }
 }
 
