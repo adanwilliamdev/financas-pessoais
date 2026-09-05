@@ -347,7 +347,7 @@ https://github.com/adanwilliamdev
 
 ### LinkedIn
 
-https://www.linkedin.com/in/adanwilliamdev/
+https://www.linkedin.com/in/awosantos/
 
 ---
 
